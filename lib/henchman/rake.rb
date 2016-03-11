@@ -215,12 +215,12 @@ namespace :spec do
     task manual: ['spec:prep', 'spec:unit:clean']
   end
 
-  task :integration, [:destroy] do |_t, args|
-    if args[:destroy]
-      case args[:destroy].downcase
+  task :integration do
+    if ENV.has_key?('DESTROY')
+      case ENV['DESTROY'].downcase
       when 'never', 'no'
         destroy_opt = :never
-      when 'always', 'yes',
+      when 'always', 'yes'
         destroy_opt = :always
       else
         destroy_opt = :passing
@@ -228,6 +228,7 @@ namespace :spec do
     else
       destroy_opt = :passing
     end
+    puts "Kitchen destroy strategy set to '#{destroy_opt}'"
     Kitchen.logger = Kitchen.default_file_logger
     Kitchen::Config.new.instances.each do |i|
       i.test(destroy_opt)
@@ -263,7 +264,7 @@ task unit: 'spec:unit'
 
 # Alias for spec:integration
 desc 'Run integration tests'
-task :integration, [:destroy] => 'spec:integration'
+task integration: 'spec:integration'
 
 namespace :integration do
   # Alias for spec:integration:manual
