@@ -220,13 +220,13 @@ namespace :spec do
       case ENV['DESTROY'].downcase
       when 'never', 'no'
         destroy_opt = :never
-      when 'always', 'yes'
-        destroy_opt = :always
-      else
+      when 'passing'
         destroy_opt = :passing
+      else
+        destroy_opt = :always
       end
     else
-      destroy_opt = :passing
+      destroy_opt = :always
     end
     puts "Kitchen destroy strategy set to '#{destroy_opt}'"
     Kitchen.logger = Kitchen.default_file_logger

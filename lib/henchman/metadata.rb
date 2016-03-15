@@ -1,6 +1,6 @@
 module Henchman
   NAME = 'puppet-henchman'.freeze
-  VERSION = '0.1.1'.freeze
+  VERSION = '0.2.0'.freeze
 
   def self.name
     NAME
